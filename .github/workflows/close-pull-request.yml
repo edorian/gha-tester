@@ -1,0 +1,20 @@
+name: Close Pull Request
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+    - run: gh pr close "$PR" --repo "$REPO" --comment "$COMMENT"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+        COMMENT: |
+          Closing
